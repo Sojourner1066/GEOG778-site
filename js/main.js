@@ -5,7 +5,7 @@
 
 // main.js
 import L from 'https://unpkg.com/leaflet@1.7.1/dist/leaflet-src.esm.js';
-import 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.css';
+// import 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.css';
 
 document.body.innerHTML = '<div id="map"></div>';
 

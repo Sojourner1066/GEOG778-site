@@ -4,7 +4,7 @@
 // npm run dev
 
 // main.js
-import L from 'leaflet';
+import L from 'https://unpkg.com/leaflet@1.7.1/dist/leaflet-src.esm.js';
 import 'leaflet/dist/leaflet.css';
 import './style.css';
 
@@ -16,7 +16,7 @@ L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/icecream-v1/tiles/{z}/{x}/{
     attribution: '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     tileSize: 512,
     zoomOffset: -1,
-    accessToken: 'YOUR_MAPBOX_ACCESS_TOKEN' // Replace with your Mapbox token
+    accessToken: 'pk.eyJ1IjoibXdpc2NnIiwiYSI6ImNtN2VtbGEzNzBnaTgyam9vZXl3YzM2Ym4ifQ.YJe4CFT-CEYhl0D98Wk8aw' // Replace with your Mapbox token
 }).addTo(map);
 
 L.marker([2.5, 20.0]).addTo(map)

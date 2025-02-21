@@ -14,7 +14,7 @@
     
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
-        const map = L.map('map').setView([51.505, -0.09], 13);
+        const map = L.map('map').setView([2.5, 20.0], 5);
         
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
             attribution: '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -24,7 +24,7 @@
             accessToken: 'pk.eyJ1IjoibXdpc2NnIiwiYSI6ImNtN2VtbGEzNzBnaTgyam9vZXl3YzM2Ym4ifQ.YJe4CFT-CEYhl0D98Wk8aw' // Replace with your Mapbox token
         }).addTo(map);
         
-        L.marker([51.505, -0.09]).addTo(map)
+        L.marker([2.5, 20.0]).addTo(map)
             .bindPopup('A sample marker!')
             .openPopup();
     </script>

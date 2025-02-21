@@ -52,80 +52,80 @@ var popup = L.popup({
 .openOn(map)
  
 
-function getConcertInfo(filter_keyword, filter_event_type, filter_event_date, genreID, map){
+// function getConcertInfo(filter_keyword, filter_event_type, filter_event_date, genreID, map){
  
-//  this will remove any marker data from map so new data can be loaded
-  map.eachLayer((layer) => {
-    if (layer instanceof L.Marker) {
-       layer.remove();
-    }
-  });
-// This function will impliment a date selection. If no nate was pass the function a default 
-// start and and date is assigned
-  if (filter_event_date == null){
-    var eventStartDate = '2024-06-01T00:01:00Z';
-    var eventEndDate = '2024-08-31T23:59:59Z';
-  } else {
-    var eventStartDate = `${filter_event_date}T00:01:00Z`;
-    var eventEndDate = `${filter_event_date}T23:59:59Z`;
-  }
+// //  this will remove any marker data from map so new data can be loaded
+//   map.eachLayer((layer) => {
+//     if (layer instanceof L.Marker) {
+//        layer.remove();
+//     }
+//   });
+// // This function will impliment a date selection. If no nate was pass the function a default 
+// // start and and date is assigned
+//   if (filter_event_date == null){
+//     var eventStartDate = '2024-06-01T00:01:00Z';
+//     var eventEndDate = '2024-08-31T23:59:59Z';
+//   } else {
+//     var eventStartDate = `${filter_event_date}T00:01:00Z`;
+//     var eventEndDate = `${filter_event_date}T23:59:59Z`;
+//   }
 
-  if (filter_event_type == null){
-    filter_event_type = ''
-  };
+//   if (filter_event_type == null){
+//     filter_event_type = ''
+//   };
 
   
-  // Define Ticketmaster API endpoint and parameters
-  var url = "https://app.ticketmaster.com/discovery/v2/events.json";
-  var apiKey = "VcXVvrZqh1bwyvCeGQQgoMomydmwFLtm";
+//   // Define Ticketmaster API endpoint and parameters
+//   var url = "https://app.ticketmaster.com/discovery/v2/events.json";
+//   var apiKey = "VcXVvrZqh1bwyvCeGQQgoMomydmwFLtm";
 
-  // Parameters for the query this is how the data is filtered
-  // this will return only events in the summer months 
-  // in the us. The max number is set by size (200 max)
-  var params = {
-    apikey: apiKey,
-    // classificationName: filter_event_type,
-    keyword: filter_event_type,
-    genreId: genreID,
-    classificationId: 'KZFzniwnSyZfZ7v7nJ', // this is the filter to be only music events
-    startDateTime: eventStartDate, // Default - '2024-06-01T00:00:00Z',
-    endDateTime: eventEndDate, // Default - '2024-08-31T23:59:00Z',
-    countryCode: 'US',
-    size: 100,
-  };
+//   // Parameters for the query this is how the data is filtered
+//   // this will return only events in the summer months 
+//   // in the us. The max number is set by size (200 max)
+//   var params = {
+//     apikey: apiKey,
+//     // classificationName: filter_event_type,
+//     keyword: filter_event_type,
+//     genreId: genreID,
+//     classificationId: 'KZFzniwnSyZfZ7v7nJ', // this is the filter to be only music events
+//     startDateTime: eventStartDate, // Default - '2024-06-01T00:00:00Z',
+//     endDateTime: eventEndDate, // Default - '2024-08-31T23:59:00Z',
+//     countryCode: 'US',
+//     size: 100,
+//   };
 
   // Construct query URL with parameters
-  var queryString = new URLSearchParams(params).toString();
-  var queryUrl = `${url}?${queryString}`;
+  // var queryString = new URLSearchParams(params).toString();
+  // var queryUrl = `${url}?${queryString}`;
 
-  var recordIcon = L.icon({
-      iconUrl: 'img/record.png',
-      iconSize: [25,25]
-  });
+  // var recordIcon = L.icon({
+  //     iconUrl: 'img/record.png',
+  //     iconSize: [25,25]
+  // });
   // Make the API request
-  fetch(queryUrl)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
+  // fetch(queryUrl)
+  //   .then(response => {
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! Status: ${response.status}`);
+  //     }
+  //     return response.json();
+  //   })
+  //   .then(data => {
 
-      if ('_embedded' in data){
-        console.log(data);
-        var eventMarkerList = []
+  //     if ('_embedded' in data){
+  //       console.log(data);
+  //       var eventMarkerList = []
 
-        // Extract event information from the response
-        const events = data._embedded.events;
-        events.forEach(event => {
-          const eventName = event.name;
-          const eventDate = event.dates.start.localDate
-          venues = event._embedded.venues;
-          venues.forEach(venue => {
-            const venueName = venue.name;
-            const latitude = venue.location.latitude;
-            const longitude = venue.location.longitude;
+  //       // Extract event information from the response
+  //       const events = data._embedded.events;
+  //       events.forEach(event => {
+  //         const eventName = event.name;
+  //         const eventDate = event.dates.start.localDate
+  //         venues = event._embedded.venues;
+  //         venues.forEach(venue => {
+  //           const venueName = venue.name;
+  //           const latitude = venue.location.latitude;
+  //           const longitude = venue.location.longitude;
             
             // Popup with a button - still testing
             // var popupContent = '<center><img src="' + event.images[1].url +'"class="popImg"/><br>' + '<text class="popTitle">' +
@@ -133,22 +133,22 @@ function getConcertInfo(filter_keyword, filter_event_type, filter_event_date, ge
             // '</text><br>' + '<a href ="' + event.url +'"><text class="popLink">Get Tickets</a></text><button id="tourBtn">Add Concert to Tour</button></center>'
 
             // Popup contents with no button
-            var popupContent = '<center><img src="' + event.images[1].url +'"class="popImg"/><br>' + '<text class="popTitle">' +
-            eventName + '</text><br><text class="popInfo">' + venueName + '<br>' + eventDate + 
-            '</text><br>' + '<a href ="' + event.url +'"><text class="popLink">Get Tickets</a></text></center>'
+    //         var popupContent = '<center><img src="' + event.images[1].url +'"class="popImg"/><br>' + '<text class="popTitle">' +
+    //         eventName + '</text><br><text class="popInfo">' + venueName + '<br>' + eventDate + 
+    //         '</text><br>' + '<a href ="' + event.url +'"><text class="popLink">Get Tickets</a></text></center>'
 
-            // Add marker to map at coordinates of venue with a popup containing event info
-            marker = L.marker([latitude, longitude], {icon: recordIcon}).bindPopup(popupContent, {className: 'popStyle'});
-            eventMarkerList.push(marker);   
-          });
-        });
-        L.layerGroup(eventMarkerList).addLayer(eventsLayer).addTo(map);
-      };
-    })
-    .catch(error => {
-      console.error("Error:", error);
-    });
-};
+    //         // Add marker to map at coordinates of venue with a popup containing event info
+    //         marker = L.marker([latitude, longitude], {icon: recordIcon}).bindPopup(popupContent, {className: 'popStyle'});
+    //         eventMarkerList.push(marker);   
+    //       });
+    //     });
+    //     L.layerGroup(eventMarkerList).addLayer(eventsLayer).addTo(map);
+    //   };
+    // })
+    // .catch(error => {
+    //   console.error("Error:", error);
+    // });
+// };
 
 document.addEventListener('DOMContentLoaded',getConcertInfo(filter_keyword='', filter_event_type=null, filter_event_date=null, genreID=genre_dict['Rock'], map))
 

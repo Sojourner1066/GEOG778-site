@@ -1,60 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width">
-            <title></title>       
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Original+Surfer&display=swap" rel="stylesheet">
-        <script src='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js'></script>
-        <link href='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css' rel='stylesheet' />
-        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.js"></script>
-        <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.css" type="text/css">
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="lib/leaflet.css">
-        <link rel="shortcut icon" href="#">        
-    </head>
-
-    <body style="background-color: #ffe9d385;">
-        <!--put your initial page content here-->
-        <div id="title">
-            <text class="t">2024 Summer Festival Finder </text>
-        </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet + Mapbox Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map { height: 100vh; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map').setView([51.505, -0.09], 13);
         
-        <div id='map'></div>
-        <div id='panel'>
-            <!-- Create a date selection tool -->
-            <text class="dateTitle">Select Date</text><br>
-            <text class="popInfo">Update the map to show everts on a selected day.</text><br>
-            <input type="date" id="festivalDate" value="2024-06-01" min="2024-06-01" max="2024-08-31"><br><br>
-            
-            <!-- Create a Genre dropdown selector -->
-            <text class="dateTitle">Select a Music Genre</text><br>
-            <text class="popInfo">Only show events from the selected Genre.</text><br>
-            <select id="selectGenre">
-                <option disabled selected hidden>Select a Genre</option>
-            </select><br><br>
-
-            <!-- Create a Event dropdown selector -->
-            <text class="dateTitle">Select an Music Event Type</text><br>
-            <text class="popInfo">Only show events from the selected type.</text><br>
-            <select id="selectEventType">
-                <option disabled selected hidden>Select an Event Type</option>
-                <option>Festivals</option>
-                <option>Concerts</option>
-            </select>
- 
-        </div>
-            
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            tileSize: 512,
+            zoomOffset: -1,
+            id: 'mapbox/streets-v11',
+            accessToken: 'pk.eyJ1IjoibXdpc2NnIiwiYSI6ImNtN2VtbGEzNzBnaTgyam9vZXl3YzM2Ym4ifQ.YJe4CFT-CEYhl0D98Wk8aw' // Replace with your Mapbox token
+        }).addTo(map);
         
-        </script>
-        
-        <!--put your external script links here-->
-        <script type="text/javascript" src="lib/leaflet-src.js"></script>
-        <script type="text/javascript" src="lib/jquery-3.5.1.js"></script>
-        <script type="text/javascript" src="js/main.js"></script>
-       
-        
-    </body>
+        L.marker([51.505, -0.09]).addTo(map)
+            .bindPopup('A sample marker!')
+            .openPopup();
+    </script>
+</body>
 </html>

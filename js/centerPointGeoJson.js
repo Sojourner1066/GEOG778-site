@@ -40,12 +40,8 @@ async function fetchWikidataGeoJSON() {
             }).filter(feature => feature !== null) // Remove any invalid entries
         };
 
-        console.log(geoJSON);
         return geoJSON;
     } catch (error) {
         console.error("Error fetching data:", error);
     }
 }
-
-// Call the function
-fetchWikidataGeoJSON();

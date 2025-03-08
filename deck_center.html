@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <!-- leaflet -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+  
+    <!-- deck.gl standalone bundle -->
+    <script src="https://unpkg.com/deck.gl@^9.0.0-beta.2/dist.min.js"></script>
+    <!-- deck.gl-leaflet -->
+    <script src="https://unpkg.com/deck.gl-leaflet@1.1.1/dist/deck.gl-leaflet.min.js"></script>
+
+    <!-- Load the custom GeoJSON script -->
+    <script src="centerPointGeoJson.js"></script>
+
+    <style>
+      #map {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+  </body>
+
+  <script type="text/javascript">
+    const map = L.map(document.getElementById('map'), {
+      center: [20, 0],  // Centered globally
+      zoom: 2
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+
+    // Function to load GeoJSON dynamically
+    async function loadGeoJSON() {
+      try {
+        const geoJSON = await fetchWikidataGeoJSON(); // Fetch data from centerPointGeoJson.js
+
+        const deckLayer = new DeckGlLeaflet.LeafletLayer({
+          views: [
+            new deck.MapView({
+              repeat: true
+            })
+          ],
+          layers: [
+            new deck.GeoJsonLayer({
+              id: 'countries',
+              data: geoJSON, // Use the fetched GeoJSON
+              filled: true,
+              pointRadiusMinPixels: 4,
+              pointRadiusScale: 2000,
+              getPointRadius: () => 5,  // Fixed radius
+              getFillColor: [0, 128, 200, 180] // Blue color for points
+            })
+          ],
+        });
+
+        map.addLayer(deckLayer);
+
+        // Add Leaflet markers for country center points
+        const featureGroup = L.featureGroup();
+        geoJSON.features.forEach(feature => {
+          const coords = feature.geometry.coordinates;
+          L.marker([coords[1], coords[0]])  // Lat, Lon
+            .bindPopup(`${feature.properties.name} (${feature.properties.iso3166_3})`)
+            .addTo(featureGroup);
+        });
+
+        map.addLayer(featureGroup);
+
+      } catch (error) {
+        console.error("Error loading GeoJSON:", error);
+      }
+    }
+
+    // Call function to load data
+    loadGeoJSON();
+  </script>
+</html>

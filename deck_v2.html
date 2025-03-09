@@ -82,7 +82,7 @@ const deckLayer = new DeckGlLeaflet.LeafletLayer({
       id: 'arcs',
       data: countryCentroids,
       // dataTransform: d => d.features.filter(f => f.properties.scalerank < 4),
-      dataTransform: d => d.features.filter(f=> f.properties.iso3166_3 = GBR),
+      dataTransform: d => d.features.filter(f=> f.properties.iso3166_3 = "GBR"),
       // Styles
       getSourcePosition: f => [f.geometry.coordinates[0], f.geometry.coordinates[1]],
       // getSourcePosition: f => [-0.4531566, 51.4709959], // London

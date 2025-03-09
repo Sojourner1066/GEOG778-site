@@ -82,8 +82,10 @@ const deckLayer = new DeckGlLeaflet.LeafletLayer({
       id: 'arcs',
       data: countryCentroids,
       // dataTransform: d => d.features.filter(f => f.properties.scalerank < 4),
+      dataTransform: d => d.features.filter(f=> f.properties.iso3166_3 = GBR),
       // Styles
-      getSourcePosition: f => [-0.4531566, 51.4709959], // London
+      getSourcePosition: f => [f.geometry.coordinates[0], f.geometry.coordinates[1]],
+      // getSourcePosition: f => [-0.4531566, 51.4709959], // London
       getTargetPosition: f => f.geometry.coordinates,
       getSourceColor: [0, 128, 200],
       getTargetColor: [200, 0, 80],
@@ -94,7 +96,7 @@ const deckLayer = new DeckGlLeaflet.LeafletLayer({
 map.addLayer(deckLayer);
 
 const featureGroup = L.featureGroup();
-featureGroup.addLayer(L.marker([51.4709959, -0.4531566]));
+// featureGroup.addLayer(L.marker([51.4709959, -0.4531566]));
 map.addLayer(featureGroup);
 
   </script>

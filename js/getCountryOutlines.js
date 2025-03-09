@@ -36,7 +36,7 @@ async function mergeGeoShapes() {
     };
 
     for (const country of countries) {
-        const geoShapeUrl = `https://commons.wikimedia.org/wiki/Special:EntityData/${country.geoShape}.geojson`;
+        const geoShapeUrl = `https://commons.wikimedia.org/wiki/Special:EntityData/${country.geoShape}`;
 
         try {
             const response = await fetch(geoShapeUrl);

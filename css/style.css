@@ -4,29 +4,4 @@
     width: 80%;
     display: inline-block;
     }
-#panel{
-    height: 800px;
-    width: 18%;
-    float: right;
-    
-}
-/* Default style for countries */
-.default-polygon-style {
-    fill: #3388ff; /* Default blue */
-    stroke: white; /* Border color */
-    stroke-width: 1px; /* Border thickness */
-    fill-opacity: 0.6; /* Fill opacity */
-}
 
-/* Hover style for countries */
-.hover-style {
-    fill: yellow; /* Change color to yellow on hover */
-    stroke-width: 2px; /* Make border thicker */
-    fill-opacity: 0.8; /* Increase fill opacity */
-}
-
-/* Selected style for clicked countries */
-.selected-style {
-    fill: red; /* Change color to red on click */
-    stroke-width: 3px; /* Make border thicker */
-}

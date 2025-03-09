@@ -11,7 +11,14 @@
     <script src="https://unpkg.com/deck.gl-leaflet@1.1.1/dist/deck.gl-leaflet.min.js"></script>
 
     <script src="js/centerPointGeoJson.js"></script>
+    <script type="module">
+      import { mergeGeoShapes } from 'js/getCountryOutline.js';
 
+      // Load and display merged country polygons
+      mergeGeoShapes().then(mergedGeoJSON => {
+          console.log("Merged GeoJSON:", mergedGeoJSON);
+      });
+    </script>
     <style>
       #map {
         position: absolute;

@@ -11,8 +11,9 @@
     <script src="https://unpkg.com/deck.gl-leaflet@1.1.1/dist/deck.gl-leaflet.min.js"></script>
 
     <script src="js/centerPointGeoJson.js"></script>
+    
     <script type="module">
-      import { mergeGeoShapes } from 'js/getCountryOutline.js';
+      import { mergeGeoShapes } from 'js/getCountryOutlines.js';
 
       // Load and display merged country polygons
       mergeGeoShapes().then(mergedGeoJSON => {
@@ -56,8 +57,6 @@
   return test;
 };
 countryCentroids = countryCentroidsGeoJSON();
-console.log(countryCentroids); // Now you can use the geoJSON data
-
 
 const map = L.map(document.getElementById('map'), {
 center: [51.47, 0.45],

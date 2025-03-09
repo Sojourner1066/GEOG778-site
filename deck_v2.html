@@ -31,13 +31,15 @@
 // source: Natural Earth http://www.naturalearthdata.com/ via geojson.xyz
 const AIR_PORTS =
   'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_airports.geojson';
-
-try {
-      const geoJSON = await fetchWikidataGeoJSON(); // Fetch data from centerPointGeoJson.js
-      console.log(geoJSON);
-    } catch (error) {
-      console.error("Error loading country centerpoints:", error);
-    }
+  async function loadGeoJSON() {
+    try {
+          const geoJSON = await fetchWikidataGeoJSON(); // Fetch data from centerPointGeoJson.js
+          console.log(geoJSON);
+        } catch (error) {
+          console.error("Error loading country centerpoints:", error);
+        }
+      }
+      loadGeoJSON();
 
 const map = L.map(document.getElementById('map'), {
 center: [51.47, 0.45],

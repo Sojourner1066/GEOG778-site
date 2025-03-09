@@ -29,38 +29,12 @@
 
   <script type="text/javascript">
 
-        // Fetch and load GeoJSON
-        async function getCountryPolygons() {
-            const countryPolyUrl = "https://datahub.io/core/geo-countries/_r/-/data/countries.geojson";
-
-            try {
-                const response = await fetch(countryPolyUrl);
-                if (!response.ok) throw new Error("Failed to load GeoJSON");
-
-                const countryPoly = await response.json();
-                console.log("Loaded GeoJSON:", countryPoly);
-
-                // Add GeoJSON to the map
-                L.geoJson(countryPoly, {
-                    style: {
-                        fillColor: "#3388ff",
-                        color: "white",
-                        weight: 1,
-                        fillOpacity: 0.6
-                    },
-                    onEachFeature: function (feature, layer) {
-                        if (feature.properties && feature.properties.ADMIN) {
-                            layer.bindPopup(`<b>Country:</b> ${feature.properties.ADMIN}`);
-                        }
-                    }
-                }).addTo(map);
-
-            } catch (error) {
-                console.error("Error loading GeoJSON:", error);
-            }
-        }
-
-        getCountryPolygons();
+  fetch("data/WorldPoly.geojson")
+      .then(response => response.json())
+      .then(data => {
+          L.geoJson(data).addTo(map);
+      })
+      .catch(error => console.error("Error loading GeoJSON:", error));
 
 
 // source: Natural Earth http://www.naturalearthdata.com/ via geojson.xyz

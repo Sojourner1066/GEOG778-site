@@ -17,10 +17,11 @@ async function fetchWikidataGeoShapes() {
         if (!response.ok) throw new Error("Failed to fetch SPARQL results");
 
         const data = await response.json();
-        return data.results.bindings.map(item => ({
-            iso3166_3: item.iso3166_3.value,
-            geoShape: item.geoShape.value.replace("http://commons.wikimedia.org/data/main/", "Data:") // Format properly
-        }));
+        return data 
+        // return data.results.bindings.map(item => ({
+        //     iso3166_3: item.iso3166_3.value,
+        //     geoShape: item.geoShape.value.replace("http://commons.wikimedia.org/data/main/", "Data:") // Format properly
+        // }));
     } catch (error) {
         console.error("Error fetching Wikidata GeoShapes:", error);
         return [];
@@ -36,11 +37,12 @@ async function mergeGeoShapes() {
     };
 
     for (const country of countries) {
-        const geoShapeUrl = `https://commons.wikimedia.org/wiki/Special:EntityData/${country.geoShape}`;
+        // const geoShapeUrl = `https://commons.wikimedia.org/wiki/Special:EntityData/${country.geoShape}`;
+        
 
         try {
-            const response = await fetch(geoShapeUrl);
-            if (!response.ok) throw new Error(`Failed to fetch ${geoShapeUrl}`);
+            const response = await fetch(country.geoShape);
+            if (!response.ok) throw new Error(`Failed to fetch ${country.geoShape}`);
 
             const geojsonData = await response.json();
 

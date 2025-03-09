@@ -29,6 +29,26 @@
 
   <script type="text/javascript">
 
+    const defaultStyle = {
+        fillColor: "#3388ff", // Default blue color
+        color: "white",       // Border color
+        weight: 1,
+        fillOpacity: 0.6
+    };
+
+    const hoverStyle = {
+        fillColor: "yellow", // Change color on hover
+        weight: 2,
+        fillOpacity: 0.8
+    };
+
+    const selectedStyle = {
+        fillColor: "red", // Keep selected country red
+        weight: 3
+    };
+
+
+
   fetch("data/WorldPoly.geojson")
       .then(response => response.json())
       .then(data => {

@@ -32,7 +32,10 @@
   fetch("data/WorldPoly.geojson")
       .then(response => response.json())
       .then(data => {
-          L.geoJson(data).addTo(map);
+          L.geoJson(data, {
+          style: defaultStyle, // Set default style
+          onEachFeature: onEachFeature // Attach event listeners 
+      }).addTo(map);
       })
       .catch(error => console.error("Error loading GeoJSON:", error));
 

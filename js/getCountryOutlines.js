@@ -30,6 +30,7 @@ async function fetchWikidataGeoShapes() {
 
 async function mergeGeoShapes() {
     const countries = await fetchWikidataGeoShapes();
+    console.log(countries)
 
     let mergedGeoJSON = {
         type: "FeatureCollection",

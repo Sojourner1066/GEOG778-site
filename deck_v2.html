@@ -45,10 +45,11 @@
       }
 
   async function countryCentroidsGeoJSON() {
-  const countryCentroids = await getCountryCenterPoints();
-  console.log(countryCentroids); // Now you can use the geoJSON data
-}
-countryCentroidsGeoJSON();
+  const test = await getCountryCenterPoints();
+  return test;
+};
+countryCentroids = countryCentroidsGeoJSON();
+console.log(countryCentroids); // Now you can use the geoJSON data
 
 
 const map = L.map(document.getElementById('map'), {

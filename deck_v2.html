@@ -32,17 +32,22 @@
 
 
 // source: Natural Earth http://www.naturalearthdata.com/ via geojson.xyz
-const AIR_PORTS =
-  'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_airports.geojson';
-  async function loadGeoJSON() {
+// const AIR_PORTS =
+//   'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_airports.geojson';
+
+  async function getCountryCenterPoints() {
     try {
           const geoJSON = await fetchWikidataGeoJSON(); // Fetch data from centerPointGeoJson.js
-          console.log(geoJSON);
+          // return geoJSON;
         } catch (error) {
           console.error("Error loading country centerpoints:", error);
         }
       }
-      loadGeoJSON();
+
+  async function main() {
+  const countryCentroids = await getCountryCenterPoints();
+  console.log(countryCentroids); // Now you can use the geoJSON data
+}
 
 const map = L.map(document.getElementById('map'), {
 center: [51.47, 0.45],
@@ -62,7 +67,7 @@ const deckLayer = new DeckGlLeaflet.LeafletLayer({
   layers: [
     new deck.GeoJsonLayer({
       id: 'centroid',
-      data: geoJSON,
+      data: countryCentroids,
       // Styles
       filled: true,
       pointRadiusMinPixels: 2,
@@ -72,7 +77,7 @@ const deckLayer = new DeckGlLeaflet.LeafletLayer({
     }),
     new deck.ArcLayer({
       id: 'arcs',
-      data: geoJSON,
+      data: countryCentroids,
       // dataTransform: d => d.features.filter(f => f.properties.scalerank < 4),
       // Styles
       getSourcePosition: f => [-0.4531566, 51.4709959], // London

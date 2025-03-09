@@ -10,96 +10,23 @@
     float: right;
     
 }
-
-.t {
-    font-family: "Original Surfer", sans-serif;
-    font-weight: 800;
-    font-size: 40px;
-    color: #e7722e;
-    }
-
-.p {
-    font-family: "Segoe UI", sans-serif;
-    font-weight: 400;
-    font-size: 18px;
-    color: #7a412b;  
-    }
-
-.popStyle .leaflet-popup-content-wrapper {
-    background-color: #fcedda;
-    }  
-.popStyle .leaflet-popup-tip{
-    background-color: #fcedda;
-    }
-
-.popTitle {
-    font-family: "Original Surfer", sans-serif;
-    font-weight: 800;
-    font-size: 20px;
-    color: #e7722e;
-    }
-
-.popInfo{
-    font-family: "Segoe UI", sans-serif;
-    font-weight: 400;
-    font-size: 18px;
-    color: #7a412b;  
-}
-.popLink{
-    font-family: "Segoe UI", sans-serif;
-    font-weight: 800;
-    font-size: 18px;
-    color: #7a412b;  
+/* Default style for countries */
+.default-polygon-style {
+    fill: #3388ff; /* Default blue */
+    stroke: white; /* Border color */
+    stroke-width: 1px; /* Border thickness */
+    fill-opacity: 0.6; /* Fill opacity */
 }
 
-.popImg{
-    height: 150px;
-    width: 150px;
+/* Hover style for countries */
+.hover-style {
+    fill: yellow; /* Change color to yellow on hover */
+    stroke-width: 2px; /* Make border thicker */
+    fill-opacity: 0.8; /* Increase fill opacity */
 }
 
-.splash .leaflet-popup-content-wrapper {
-    background: #fdf7e4f3;
-    color: #e7722e;
-    border-radius: 10px;
-    width: 350px;
-    height: 425px;
-    text-align: center;
-    
-    }
-
-.splash .leaflet-popup-tip-container {
-    width:60px;
-    height:30px;
-    }
-    
-.splash .leaflet-popup-tip {
-      background: transparent;
-      border: none;
-      box-shadow: none;
-    }
-
-.img{
-    height: 200px;
-    width: 200px;
-    position: relative;
-    animation:4s rotate infinite linear; 
-    }
-    
-@keyframes rotate{
-        100%{ transform:rotate(1turn) } 
-}
-
-.listLink{
-    font-family: "Segoe UI", sans-serif;
-    font-weight: 400;
-    font-size: 16px;
-    color: #7a412b;  
-}
-
-.dateTitle{
-    font-family: "Segoe UI", sans-serif;
-    font-weight: 800;
-    font-size: 18px;
-    color: #7a412b;  
-    
+/* Selected style for clicked countries */
+.selected-style {
+    fill: red; /* Change color to red on click */
+    stroke-width: 3px; /* Make border thicker */
 }

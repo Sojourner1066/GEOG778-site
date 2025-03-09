@@ -36,7 +36,28 @@
       })
       .catch(error => console.error("Error loading GeoJSON:", error));
 
+// Event functions to apply and remove CSS classes
+function onEachFeature(feature, layer) {
+    // Apply the default style class
+    layer.setStyle({ className: 'default-poly-style' });
 
+    layer.on({
+        mouseover: function (e) {
+            e.target.setStyle({ className: 'hover-poly-style' }); // Apply hover style
+        },
+        mouseout: function (e) {
+            e.target.setStyle({ className: 'default-style' }); // Reset to default style
+        },
+        click: function (e) {
+            e.target.setStyle({ className: 'selected-style' }); // Apply selected style on click
+        }
+    });
+
+    // Add a popup with country name
+    if (feature.properties && feature.properties.ADMIN) {
+        layer.bindPopup(`<b>Country:</b> ${feature.properties.ADMIN}`);
+    }
+}
 // source: Natural Earth http://www.naturalearthdata.com/ via geojson.xyz
 // const AIR_PORTS =
 //   'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_airports.geojson';

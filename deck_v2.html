@@ -66,13 +66,13 @@ function onEachFeature(feature, layer) {
 
     layer.on({
         mouseover: function (e) {
-            e.target.setStyle({ className: 'hover-poly-style' }); // Apply hover style
+            e.target.setStyle(hoverStyle); // Apply hover style
         },
         mouseout: function (e) {
-            e.target.setStyle({ className: 'default-style' }); // Reset to default style
+            e.target.setStyle(defaultStyle); // Reset to default style
         },
         click: function (e) {
-            e.target.setStyle({ className: 'selected-style' }); // Apply selected style on click
+            e.target.setStyle(selectedStyle); // Apply selected style on click
         }
     });
 

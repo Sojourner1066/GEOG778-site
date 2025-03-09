@@ -20,7 +20,7 @@ async function fetchWikidataGeoShapes() {
         // return data 
         return data.results.bindings.map(item => ({
             iso3166_3: item.iso3166_3.value,
-            geoShape: item.geoShape.value,
+            geoShape: item.geoShape.value.replace("http", "https") + "&action=raw",
             countryLabel: item.countryLabel.value
         }));
     } catch (error) {

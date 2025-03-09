@@ -28,7 +28,6 @@
   </body>
 
   <script type="text/javascript">
-
     const defaultStyle = {
         fillColor: "#3388ff", // Default blue color
         color: "white",       // Border color
@@ -47,105 +46,97 @@
         weight: 3
     };
 
+    // Initialize the map
+    const map = L.map('map').setView([51.47, 0.45], 4);
 
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
 
-  fetch("data/WorldPoly.geojson")
+    // Fetch and add GeoJSON data
+    fetch("data/WorldPoly.geojson")
       .then(response => response.json())
       .then(data => {
           L.geoJson(data, {
-          style: defaultStyle, // Set default style
-          onEachFeature: onEachFeature // Attach event listeners 
-      }).addTo(map);
+            style: defaultStyle, // Set default style
+            onEachFeature: onEachFeature // Attach event listeners 
+          }).addTo(map);
       })
       .catch(error => console.error("Error loading GeoJSON:", error));
 
-// Event functions to apply and remove CSS classes
-function onEachFeature(feature, layer) {
-    // Apply the default style class
-    layer.setStyle({ className: 'default-poly-style' });
+    // Event functions to apply and remove styles
+    function onEachFeature(feature, layer) {
+        layer.on({
+            mouseover: function (e) {
+                e.target.setStyle(hoverStyle); // Apply hover style
+            },
+            mouseout: function (e) {
+                e.target.setStyle(defaultStyle); // Reset to default style
+            },
+            click: function (e) {
+                e.target.setStyle(selectedStyle); // Apply selected style on click
+            }
+        });
 
-    layer.on({
-        mouseover: function (e) {
-            e.target.setStyle(hoverStyle); // Apply hover style
-        },
-        mouseout: function (e) {
-            e.target.setStyle(defaultStyle); // Reset to default style
-        },
-        click: function (e) {
-            e.target.setStyle(selectedStyle); // Apply selected style on click
+        // Add a popup with country name
+        if (feature.properties && feature.properties.ADMIN) {
+            layer.bindPopup(`<b>Country:</b> ${feature.properties.ADMIN}`);
         }
+    }
+
+    // Fetch and add country center points
+    async function getCountryCenterPoints() {
+        try {
+            const geoJSON = await fetchWikidataGeoJSON(); // Fetch data from centerPointGeoJson.js
+            return geoJSON;
+        } catch (error) {
+            console.error("Error loading country centerpoints:", error);
+        }
+    }
+
+    async function countryCentroidsGeoJSON() {
+        const test = await getCountryCenterPoints();
+        return test;
+    }
+
+    countryCentroidsGeoJSON().then(countryCentroids => {
+        const deckLayer = new DeckGlLeaflet.LeafletLayer({
+            views: [
+                new deck.MapView({
+                    repeat: true
+                })
+            ],
+            layers: [
+                new deck.GeoJsonLayer({
+                    id: 'centroid',
+                    data: countryCentroids,
+                    // Styles
+                    filled: true,
+                    pointRadiusMinPixels: 2,
+                    pointRadiusScale: 2000,
+                    // getPointRadius: f => 11 - f.properties.scalerank,
+                    getFillColor: [200, 0, 80, 180]
+                }),
+                new deck.ArcLayer({
+                    id: 'arcs',
+                    data: countryCentroids,
+                    // dataTransform: d => d.features.filter(f => f.properties.scalerank < 4),
+                    dataTransform: d => d.features.filter(f => f.properties.iso3166_3 === "GBR"),
+                    // Styles
+                    getSourcePosition: f => [f.geometry.coordinates[0], f.geometry.coordinates[1]],
+                    // getSourcePosition: f => [-0.4531566, 51.4709959], // London
+                    getTargetPosition: f => f.geometry.coordinates,
+                    getSourceColor: [0, 128, 200],
+                    getTargetColor: [200, 0, 80],
+                    getWidth: 1
+                })
+            ],
+        });
+        map.addLayer(deckLayer);
     });
 
-    // Add a popup with country name
-    if (feature.properties && feature.properties.ADMIN) {
-        layer.bindPopup(`<b>Country:</b> ${feature.properties.ADMIN}`);
-    }
-}
-// source: Natural Earth http://www.naturalearthdata.com/ via geojson.xyz
-// const AIR_PORTS =
-//   'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_airports.geojson';
-
-  async function getCountryCenterPoints() {
-    try {
-          const geoJSON = await fetchWikidataGeoJSON(); // Fetch data from centerPointGeoJson.js
-          return geoJSON;
-        } catch (error) {
-          console.error("Error loading country centerpoints:", error);
-        }
-      }
-
-  async function countryCentroidsGeoJSON() {
-  const test = await getCountryCenterPoints();
-  return test;
-};
-countryCentroids = countryCentroidsGeoJSON();
-
-const map = L.map(document.getElementById('map'), {
-center: [51.47, 0.45],
-zoom: 4,
-});
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-}).addTo(map);
-
-const deckLayer = new DeckGlLeaflet.LeafletLayer({
-  views: [
-    new deck.MapView({
-      repeat: true
-    })
-  ],
-  layers: [
-    new deck.GeoJsonLayer({
-      id: 'centroid',
-      data: countryCentroids,
-      // Styles
-      filled: true,
-      pointRadiusMinPixels: 2,
-      pointRadiusScale: 2000,
-      // getPointRadius: f => 11 - f.properties.scalerank,
-      getFillColor: [200, 0, 80, 180]
-    }),
-    new deck.ArcLayer({
-      id: 'arcs',
-      data: countryCentroids,
-      // dataTransform: d => d.features.filter(f => f.properties.scalerank < 4),
-      dataTransform: d => d.features.filter(f=> f.properties.iso3166_3 = "GBR"),
-      // Styles
-      getSourcePosition: f => [f.geometry.coordinates[0], f.geometry.coordinates[1]],
-      // getSourcePosition: f => [-0.4531566, 51.4709959], // London
-      getTargetPosition: f => f.geometry.coordinates,
-      getSourceColor: [0, 128, 200],
-      getTargetColor: [200, 0, 80],
-      getWidth: 1
-    })
-  ],
-});
-map.addLayer(deckLayer);
-
-const featureGroup = L.featureGroup();
-// featureGroup.addLayer(L.marker([51.4709959, -0.4531566]));
-map.addLayer(featureGroup);
-
+    const featureGroup = L.featureGroup();
+    // featureGroup.addLayer(L.marker([51.4709959, -0.4531566]));
+    map.addLayer(featureGroup);
   </script>
 </html>

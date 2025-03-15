@@ -31,6 +31,8 @@
   <script>console.log("Leaflet loaded version:", L.version);</script>
 
   <script type="text/javascript">
+    let selectedCountryISO3 = null; // Global variable to store the selected country
+
     const defaultStyle = {
         fillColor: "#cbc9e2", 
         color: "#9e9ac8",       // Border color
@@ -81,6 +83,9 @@
             },
             click: function (e) {
                 e.target.setStyle(selectedStyle); // Apply selected style on click
+                            // Set the selected country ISO3 code
+                selectedCountryISO3 = feature.properties.iso_a3;
+                console.log("Selected Country ISO3:", selectedCountryISO3);
             }
         });
 

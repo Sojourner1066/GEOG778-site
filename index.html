@@ -137,6 +137,7 @@
         new deck.ArcLayer({
         id: 'arcs',
         data: filteredGeoJSON,
+        dataTransform: d => d.features.filter(f => f.properties.iso3166_3 === "USA"),
         // Styles
         getSourcePosition: f => startingPoint, 
         getTargetPosition: f => f.geometry.coordinates,

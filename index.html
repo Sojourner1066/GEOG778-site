@@ -86,6 +86,8 @@
                             // Set the selected country ISO3 code
                 selectedCountryISO3 = feature.properties.iso_a3;
                 console.log("Selected Country ISO3:", selectedCountryISO3);
+                const startingPoint = getCoordinatesByISO3(countryCentroids, selectedCountryISO3);
+                console.log("Starting Point:", startingPoint);
             }
         });
 

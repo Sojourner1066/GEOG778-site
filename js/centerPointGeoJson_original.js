@@ -1,6 +1,3 @@
-export let countryCentroids = null; // Global variable to store country centroids
-
-// Function to fetch and convert Wikidata SPARQL results into GeoJSON
 async function fetchWikidataGeoJSON() {
     const query = `
     SELECT ?country ?countryLabel ?iso3166_3 ?coord WHERE {
@@ -46,12 +43,5 @@ async function fetchWikidataGeoJSON() {
         return geoJSON;
     } catch (error) {
         console.error("Error fetching data:", error);
-        return null;
     }
-}
-
-// Function to load country centroids and store them globally
-export async function loadCountryCentroids() {
-    countryCentroids = await fetchWikidataGeoJSON();
-    console.log("Loaded country centroids:", countryCentroids);
 }

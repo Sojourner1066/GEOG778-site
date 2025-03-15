@@ -110,26 +110,98 @@
         return null; // If no matching ISO3 code found
     }
 
-    const deckLayer = new DeckGlLeaflet.LeafletLayer({
+    // // Fetch and add country center points
+    // async function getCountryCenterPoints() {
+    //     try {
+    //         const geoJSON = await fetchWikidataGeoJSON(); // Fetch data from centerPointGeoJson.js
+    //         return geoJSON;
+    //     } catch (error) {
+    //         console.error("Error loading country centerpoints:", error);
+    //     }
+    // }
+
+    // async function countryCentroidsGeoJSON() {
+    //     const centroid = await getCountryCenterPoints();
+    //     return centroid;
+    // }
+
+    countryCentroidsGeoJSON().then(countryCentroids => {
+
+        // const filteredGeoJSON = filterGeoJSONByISO3(countryCentroids, ["CAN", "USA"]);
+
+
+        // const startingPoint = getCoordinatesByISO3(countryCentroids, "GBR");
+
+ 
+        const deckLayer = new DeckGlLeaflet.LeafletLayer({
         views: [
             new deck.MapView({
             repeat: true
             })
         ],
         layers: [
-            // new deck.ArcLayer({
-            // id: 'arcs',
-            // data: countryCentroids,
-            // dataTransform: d => d.features.filter(f => selectedCountries.includes(f.properties.iso3166_3)),
-            // // Styles
-            // getSourcePosition: f => startingPoint, 
-            // getTargetPosition: f => f.geometry.coordinates,
-            // getSourceColor: [0, 128, 200],
-            // getTargetColor: [200, 0, 80],
-            // getWidth: 1
-            // })
+            new deck.ArcLayer({
+            id: 'arcs',
+            data: countryCentroids,
+            // dataTransform: d => d.features.filter(f => f.properties.iso3166_3 === "USA"),
+            dataTransform: d => d.features.filter(f => selectedCountries.includes(f.properties.iso3166_3)),
+            // Styles
+            getSourcePosition: f => startingPoint, 
+            getTargetPosition: f => f.geometry.coordinates,
+            getSourceColor: [0, 128, 200],
+            getTargetColor: [200, 0, 80],
+            getWidth: 1
+            })
         ],
         });
-    map.addLayer(deckLayer);
+        map.addLayer(deckLayer);
+        // const startingPoint = getCoordinatesByISO3(countryCentroids, "GBR");
+
+        // const countryList = ["FRA", "USA"];
+        // const endingPoints = [];
+
+        // // Loop over each country ISO3 code and push its coordinates into endingPoints
+        // countryList.forEach(countryCode => {
+        //     const coordinates = getCoordinatesByISO3(countryCentroids, countryCode);
+        //     if (coordinates) {
+        //         endingPoints.push(coordinates);
+        //     }
+        // });
+
+        // console.log("Starting Point:", startingPoint);
+        // console.log("Ending Points:", endingPoints);
+
+        // // Prepare ArcLayer data
+        // const arcData = endingPoints.map(endPoint => ({
+        //     sourcePosition: startingPoint,
+        //     targetPosition: endPoint
+        // }));
+
+        // // Create the ArcLayer
+        // const arcLayer = new deck.ArcLayer({
+        //     id: 'arc-layer',
+        //     data: arcData,
+        //     getSourcePosition: d => d.sourcePosition,
+        //     getTargetPosition: d => d.targetPosition,
+        //     getWidth: 2,
+        //     getSourceColor: [255, 140, 0], // Orange color
+        //     getTargetColor: [0, 255, 255], // Cyan color
+        // });
+
+        // // Integrate with Leaflet
+        // const deckOverlay = new deck.DeckGL({
+        //     layers: [arcLayer],
+        //     initialViewState: {
+        //         longitude: startingPoint[0],
+        //         latitude: startingPoint[1],
+        //         zoom: 3,
+        //         pitch: 30
+        //     },
+        //     getTooltip: ({ object }) =>
+        //         object && `From: GBR\nTo: ${object.targetPosition}`,
+        // });
+
+        // L.deckGL(deckOverlay).addTo(map);
+    });
   </script>
 </html>

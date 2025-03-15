@@ -85,6 +85,15 @@
         }
     }
 
+    function getCoordinatesByISO3(geojsonData, iso3) {
+        for (let feature of geojsonData) {
+            if (feature.properties.iso3166_3 === iso3) {
+            return feature.geometry.coordinates;
+            }
+        }
+        return null; // If no matching ISO3 code found
+        }
+
     // Fetch and add country center points
     async function getCountryCenterPoints() {
         try {
@@ -101,15 +110,35 @@
     }
 
     countryCentroidsGeoJSON().then(countryCentroids => {
-        console.log(countryCentroids.features);
-        countryCentroids.features.forEach(feature => {
-            const coordinates = feature.geometry.coordinates;
-            const countryName = feature.properties.name;
-            const marker = L.marker([coordinates[1], coordinates[0]]).addTo(map);
-            marker.bindPopup(countryName);
+        const startingPoint = getCoordinatesByISO3(data, "GBR");
+        console.log(startingPoint); // [-2, 54.6]
+
         });
-    });
     
+
+
+// const countryList = ["GBR", "USA"];
+// const coordinatesList = [];
+
+// Loop over each country ISO3 code and push its coordinates into coordinatesList
+// countryList.forEach(countryCode => {
+//   const coordinates = getCoordinatesByISO3(countryCode);
+//   if (coordinates) {
+//     coordinatesList.push({
+//       iso3: countryCode,
+//       coordinates: coordinates
+//     });
+//   } else {
+//     console.warn(`No coordinates found for country ISO3: ${countryCode}`);
+//   }
+// });
+
+// console.log(coordinatesList);
+
+
+
+
+
     // const featureGroup = L.featureGroup();
     // featureGroup.addLayer(L.marker([51.4709959, -0.4531566]));
     // map.addLayer(featureGroup);

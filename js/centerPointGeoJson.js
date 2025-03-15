@@ -41,6 +41,7 @@ async function fetchWikidataGeoJSON() {
         };
 
         return geoJSON;
+        console.log(geoJSON);
     } catch (error) {
         console.error("Error fetching data:", error);
     }

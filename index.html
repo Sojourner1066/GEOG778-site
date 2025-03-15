@@ -140,7 +140,7 @@
         layers: [
             new deck.ArcLayer({
             id: 'arcs',
-            data: filteredGeoJSON,
+            data: countryCentroids,
             // dataTransform: d => d.features.filter(f => f.properties.iso3166_3 === "USA"),
             dataTransform: d => d.features.filter(f => selectedCountries.includes(f.properties.iso3166_3)),
             // Styles

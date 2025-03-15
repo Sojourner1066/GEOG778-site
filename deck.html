@@ -1,13 +1,10 @@
 <html>
   <head>
-    <!-- leaflet -->
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
-  
-    <!-- deck.gl standalone bundle -->
-    <script src="https://unpkg.com/deck.gl@^9.0.0-beta.2/dist.min.js"></script>
-    <!-- deck.gl-leaflet -->
-    <script src="https://unpkg.com/deck.gl-leaflet@1.1.1/dist/deck.gl-leaflet.min.js"></script>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <script src="https://unpkg.com/deck.gl@latest/dist.min.js"></script>
+    <script src="https://unpkg.com/deck.gl-leaflet@latest"></script>
 
     <style>
       #map {
@@ -26,17 +23,14 @@
 
   <script type="text/javascript">
 
-
-
 // source: Natural Earth http://www.naturalearthdata.com/ via geojson.xyz
 const AIR_PORTS =
   'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_airports.geojson';
 
-const map = L.map(document.getElementById('map'), {
-center: [51.47, 0.45],
-zoom: 4,
+  const map = L.map(document.getElementById('map'), {
+  center: [51.47, 0.45],
+  zoom: 4,
 });
-
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);

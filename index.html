@@ -126,28 +126,33 @@
 
         const startingPoint = getCoordinatesByISO3(countryCentroids, "GBR");
 
-
-    const deckLayer = new DeckGlLeaflet.LeafletLayer({
-    views: [
-        new deck.MapView({
-        repeat: true
-        })
-    ],
-    layers: [
-        new deck.ArcLayer({
-        id: 'arcs',
-        data: filteredGeoJSON,
-        dataTransform: d => d.features.filter(f => f.properties.iso3166_3 === "USA"),
-        // Styles
-        getSourcePosition: f => startingPoint, 
-        getTargetPosition: f => f.geometry.coordinates,
-        getSourceColor: [0, 128, 200],
-        getTargetColor: [200, 0, 80],
-        getWidth: 1
-        })
-    ],
-    });
-    map.addLayer(deckLayer);
+        selectedCountries = ["AGO", "BDI", "BEN", "BFA", "BWA", "CAF", "CIV", "CMR", "COD", "COG", "COM", 
+                            "CPV", "DJI", "DZA", "EGY", "ERI", "ETH", "GAB", "GHA", "GIN", "GMB", "GNB", 
+                            "GNQ", "KEN", "LBR", "LBY", "LSO", "MAR", "MDG", "MLI", "MOZ", "MRT", "MUS", 
+                            "MWI", "NAM", "NER", "NGA", "RWA", "SDN", "SEN", "SLE", "SOM", "SSD", "STP", 
+                            "SWZ", "SYC", "TCD", "TGO", "TUN", "TZA", "UGA", "ZAF", "ZMB", "ZWE"];
+        const deckLayer = new DeckGlLeaflet.LeafletLayer({
+        views: [
+            new deck.MapView({
+            repeat: true
+            })
+        ],
+        layers: [
+            new deck.ArcLayer({
+            id: 'arcs',
+            data: filteredGeoJSON,
+            // dataTransform: d => d.features.filter(f => f.properties.iso3166_3 === "USA"),
+            dataTransform: d => d.features.filter(f => selectedCountries.includes(f.properties.iso3166_3)),
+            // Styles
+            getSourcePosition: f => startingPoint, 
+            getTargetPosition: f => f.geometry.coordinates,
+            getSourceColor: [0, 128, 200],
+            getTargetColor: [200, 0, 80],
+            getWidth: 1
+            })
+        ],
+        });
+        map.addLayer(deckLayer);
         // const startingPoint = getCoordinatesByISO3(countryCentroids, "GBR");
 
         // const countryList = ["FRA", "USA"];

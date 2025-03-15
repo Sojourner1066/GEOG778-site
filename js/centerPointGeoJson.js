@@ -55,3 +55,12 @@ export async function loadCountryCentroids() {
     countryCentroids = await fetchWikidataGeoJSON();
     console.log("Loaded country centroids:", countryCentroids);
 }
+
+function getCoordinatesByISO3(geojsonData, iso3) {
+    for (let feature of geojsonData.features) {
+        if (feature.properties.iso3166_3 === iso3) {
+            return feature.geometry.coordinates;
+        }
+    }
+    return null; // If no matching ISO3 code found
+}

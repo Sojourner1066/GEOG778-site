@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link href="https://unpkg.com/leaflet/dist/leaflet.css" rel="stylesheet" />
+    <script src="https://unpkg.com/deck.gl@latest/dist.min.js"></script>
+    <script src="https://unpkg.com/@deck.gl/leaflet@latest/dist.min.js"></script>
+    
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet/dist/leaflet.css" />
     <script src="https://cdn.jsdelivr.net/npm/leaflet/dist/leaflet.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/deck.gl/dist.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@deck.gl/leaflet/dist.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@deck.gl/leaflet/dist.min.js"></script> -->
 
     <script src="./js/centerPointGeoJson.js"></script>
 
@@ -111,29 +116,26 @@
 
     countryCentroidsGeoJSON().then(countryCentroids => {
         const startingPoint = getCoordinatesByISO3(countryCentroids, "GBR");
-        console.log(startingPoint); // [-2, 54.6]
+        
+        const countryList = ["FRA", "USA"];
+        const coordinatesList = [];
 
+        // Loop over each country ISO3 code and push its coordinates into coordinatesList
+        countryList.forEach(countryCode => {
+        const coordinates = getCoordinatesByISO3(countryCode);
+        if (coordinates) {
+            coordinatesList.push(coordinates)
+            };
         });
+        console.log(coordinatesList);
+        console.log(startingPoint);
+    });
     
 
 
-// const countryList = ["GBR", "USA"];
-// const coordinatesList = [];
 
-// Loop over each country ISO3 code and push its coordinates into coordinatesList
-// countryList.forEach(countryCode => {
-//   const coordinates = getCoordinatesByISO3(countryCode);
-//   if (coordinates) {
-//     coordinatesList.push({
-//       iso3: countryCode,
-//       coordinates: coordinates
-//     });
-//   } else {
-//     console.warn(`No coordinates found for country ISO3: ${countryCode}`);
-//   }
-// });
 
-// console.log(coordinatesList);
+
 
 
 

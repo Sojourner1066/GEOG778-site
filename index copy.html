@@ -1,9 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- Leaflet -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> -->
+
+    <!-- deck.gl -->
+    <!-- <script src="https://unpkg.com/deck.gl@latest/dist.min.js"></script>
+    <script src="https://unpkg.com/@deck.gl/leaflet@latest/dist.min.js"></script> -->
+    <!-- Leaflet CSS & JS -->
+
+    <!-- Leaflet CSS & JS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet/dist/leaflet.css" />
     <script src="https://cdn.jsdelivr.net/npm/leaflet/dist/leaflet.js"></script>
 
+    <!-- deck.gl & deck.gl-leaflet -->
     <script src="https://cdn.jsdelivr.net/npm/deck.gl/dist.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@deck.gl/leaflet/dist.min.js"></script>
 
@@ -102,16 +113,60 @@
 
     countryCentroidsGeoJSON().then(countryCentroids => {
         console.log(countryCentroids.features);
-        countryCentroids.features.forEach(feature => {
-            const coordinates = feature.geometry.coordinates;
-            const countryName = feature.properties.name;
-            const marker = L.marker([coordinates[1], coordinates[0]]).addTo(map);
-            marker.bindPopup(countryName);
+        // const deckLayer = new DeckGlLeaflet.LeafletLayer({
+        //     views: [
+        //         new deck.MapView({
+        //             repeat: true
+        //         })
+        //     ],
+        //     layers: [
+        //         new deck.GeoJsonLayer({
+        //             id: 'centroid',
+        //             data: countryCentroids,
+        //             // Styles
+        //             filled: true,
+        //             pointRadiusMinPixels: 2,
+        //             pointRadiusScale: 2000,
+        //             // getPointRadius: f => 11 - f.properties.scalerank,
+        //             getFillColor: [200, 0, 80, 0] // last zero sets points to be invisible
+        //         }),
+        //         new deck.ArcLayer({
+        //           id: 'arcs',
+        //           data: countryCentroids.features,
+                  
+        //           dataTransform: d => d.features.filter(f => f.properties.iso3166_3 !== "GBR"), // Exclude the UK from targets
+
+        //           // Set the UK as the fixed source
+        //           getSourcePosition: f => [-0.1278, 51.5074], // London coordinates (longitude, latitude)
+
+        //           // Set each country's centroid as the target
+        //           getTargetPosition: f => f.geometry.coordinates,
+
+        //           // Styles
+        //           getSourceColor: [0, 128, 200], // UK color
+        //           getTargetColor: [200, 0, 80], // Target countries color
+        //           getWidth: 1
+        //         })
+                // new deck.ArcLayer({
+                //     id: 'arcs',
+                //     data: countryCentroids,
+                //     // dataTransform: d => d.features.filter(f => f.properties.scalerank < 4),
+                //     dataTransform: d => d.features.filter(f => f.properties.iso3166_3 === "GBR"),
+                //     // Styles
+                //     getSourcePosition: f => [f.geometry.coordinates[0], f.geometry.coordinates[1]],
+                //     // getSourcePosition: f => [-0.4531566, 51.4709959], // London
+                //     getTargetPosition: f => f.geometry.coordinates,
+                //     getSourceColor: [0, 128, 200],
+                //     getTargetColor: [200, 0, 80],
+                //     getWidth: 1
+                // })
+            ],
         });
+        map.addLayer(deckLayer);
     });
-    
-    // const featureGroup = L.featureGroup();
+
+    const featureGroup = L.featureGroup();
     // featureGroup.addLayer(L.marker([51.4709959, -0.4531566]));
-    // map.addLayer(featureGroup);
+    map.addLayer(featureGroup);
   </script>
 </html>

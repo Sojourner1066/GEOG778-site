@@ -114,72 +114,35 @@
         return centroid;
     }
 
-    // countryCentroidsGeoJSON().then(countryCentroids => {
-    //     const startingPoint = getCoordinatesByISO3(countryCentroids, "GBR");
-        
-    //     const countryList = ["FRA", "USA"];
-    //     const endingPoints = [];
-
-    //     // Loop over each country ISO3 code and push its coordinates into coordinatesList
-    //     countryList.forEach(countryCode => {
-    //     const coordinates = getCoordinatesByISO3(countryCentroids, countryCode);
-    //     if (coordinates) {
-    //         endingPoints.push(coordinates)
-    //         };
-    //     });
-    //     console.log(endingPoints);
-    //     console.log(startingPoint);
-    // });
-    
-
     countryCentroidsGeoJSON().then(countryCentroids => {
         const startingPoint = getCoordinatesByISO3(countryCentroids, "GBR");
-
+        
         const countryList = ["FRA", "USA"];
         const endingPoints = [];
 
-        // Loop over each country ISO3 code and push its coordinates into endingPoints
+        // Loop over each country ISO3 code and push its coordinates into coordinatesList
         countryList.forEach(countryCode => {
-            const coordinates = getCoordinatesByISO3(countryCentroids, countryCode);
-            if (coordinates) {
-                endingPoints.push(coordinates);
-            }
+        const coordinates = getCoordinatesByISO3(countryCentroids, countryCode);
+        if (coordinates) {
+            endingPoints.push(coordinates)
+            };
         });
-
-        console.log("Starting Point:", startingPoint);
-        console.log("Ending Points:", endingPoints);
-
-        // Prepare ArcLayer data
-        const arcData = endingPoints.map(endPoint => ({
-            sourcePosition: startingPoint,
-            targetPosition: endPoint
-        }));
-
-        // Create the ArcLayer
-        const arcLayer = new deck.ArcLayer({
-            id: 'arc-layer',
-            data: arcData,
-            getSourcePosition: d => d.sourcePosition,
-            getTargetPosition: d => d.targetPosition,
-            getWidth: 2,
-            getSourceColor: [255, 140, 0], // Orange color
-            getTargetColor: [0, 255, 255], // Cyan color
-        });
-
-        // Integrate with Leaflet
-        const deckOverlay = new deck.DeckGL({
-            layers: [arcLayer],
-            initialViewState: {
-                longitude: startingPoint[0],
-                latitude: startingPoint[1],
-                zoom: 3,
-                pitch: 30
-            },
-            getTooltip: ({ object }) =>
-                object && `From: GBR\nTo: ${object.targetPosition}`,
-        });
-
-        L.deckGL(deckOverlay).addTo(map);
+        console.log(endingPoints);
+        console.log(startingPoint);
     });
+    
+
+
+
+
+
+
+
+
+
+
+    // const featureGroup = L.featureGroup();
+    // featureGroup.addLayer(L.marker([51.4709959, -0.4531566]));
+    // map.addLayer(featureGroup);
   </script>
 </html>

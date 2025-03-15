@@ -123,7 +123,7 @@
 
         // Loop over each country ISO3 code and push its coordinates into coordinatesList
         countryList.forEach(countryCode => {
-        const coordinates = getCoordinatesByISO3(countryCode);
+        const coordinates = getCoordinatesByISO3(countryCentroids, countryCode);
         if (coordinates) {
             coordinatesList.push(coordinates)
             };

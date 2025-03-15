@@ -110,7 +110,7 @@
     }
 
     countryCentroidsGeoJSON().then(countryCentroids => {
-        const startingPoint = getCoordinatesByISO3(data, "GBR");
+        const startingPoint = getCoordinatesByISO3(countryCentroids, "GBR");
         console.log(startingPoint); // [-2, 54.6]
 
         });

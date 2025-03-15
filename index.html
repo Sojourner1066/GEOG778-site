@@ -98,11 +98,12 @@
     }
 
     async function countryCentroidsGeoJSON() {
-        const test = await getCountryCenterPoints();
-        return test;
+        const centroid = await getCountryCenterPoints();
+        return centroid;
     }
 
     countryCentroidsGeoJSON().then(countryCentroids => {
+        console.log(countryCentroids.features);
         const deckLayer = new DeckGlLeaflet.LeafletLayer({
             views: [
                 new deck.MapView({
@@ -122,7 +123,8 @@
                 }),
                 new deck.ArcLayer({
                   id: 'arcs',
-                  data: countryCentroids.features, // Ensure we're passing the correct GeoJSON array
+                  data: countryCentroids.features,
+                  
                   dataTransform: d => d.features.filter(f => f.properties.iso3166_3 !== "GBR"), // Exclude the UK from targets
 
                   // Set the UK as the fixed source

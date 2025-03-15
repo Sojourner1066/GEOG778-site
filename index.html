@@ -123,6 +123,30 @@
         console.log(countryCentroids);
         const filteredGeoJSON = filterGeoJSONByISO3(countryCentroids, ["CAN", "USA"]);
         console.log(filteredGeoJSON);
+
+        const startingPoint = getCoordinatesByISO3(countryCentroids, "GBR");
+
+
+    const deckLayer = new DeckGlLeaflet.LeafletLayer({
+    views: [
+        new deck.MapView({
+        repeat: true
+        })
+    ],
+    layers: [
+        new deck.ArcLayer({
+        id: 'arcs',
+        data: filteredGeoJSON,
+        // Styles
+        getSourcePosition: f => startingPoint, 
+        getTargetPosition: f => f.geometry.coordinates,
+        getSourceColor: [0, 128, 200],
+        getTargetColor: [200, 0, 80],
+        getWidth: 1
+        })
+    ],
+    });
+    map.addLayer(deckLayer);
         // const startingPoint = getCoordinatesByISO3(countryCentroids, "GBR");
 
         // const countryList = ["FRA", "USA"];

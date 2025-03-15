@@ -12,6 +12,7 @@
     <script src="https://unpkg.com/deck.gl-leaflet@1.3.1/dist/deck.gl-leaflet.umd.min.js"></script>
 
     <script src="./js/centerPointGeoJson.js"></script>
+    <script src="./js/filtergeojson.js"></script>
 
     <style>
       #map {
@@ -120,6 +121,8 @@
 
     countryCentroidsGeoJSON().then(countryCentroids => {
         console.log(countryCentroids);
+        const filteredGeoJSON = filterGeoJSONByISO3(countryCentroids, ["CAN", "USA"]);
+        console.log(filteredGeoJSON);
         // const startingPoint = getCoordinatesByISO3(countryCentroids, "GBR");
 
         // const countryList = ["FRA", "USA"];

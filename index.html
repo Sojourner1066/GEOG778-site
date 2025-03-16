@@ -33,11 +33,10 @@
   <script type="text/javascript">
 
     async function loadCountryCentroids() {
-    countryCentroids = await fetchWikidataGeoJSON();
-    console.log("Loaded country centroids:", countryCentroids);
-    return countryCentroids;
-}
-    let countryCentroids = loadCountryCentroids(); // Load country centroids
+        const countryCentroids = await fetchWikidataGeoJSON();
+        console.log("Loaded country centroids:", countryCentroids);
+        return countryCentroids;
+    }
 
     let selectedCountryISO3 = null; // Global variable to store the selected country
     let selectedCountries = ["AGO", "BDI", "BEN", "BFA", "BWA", "CAF", "CIV", "CMR", "COD", "COG", "COM", 
@@ -95,18 +94,19 @@
             mouseout: function (e) {
                 e.target.setStyle(defaultStyle); // Reset to default style
             },
-            click: function (e) {
+            click: async function (e) {
                 e.target.setStyle(selectedStyle); // Apply selected style on click
-                            // Set the selected country ISO3 code
+                // Set the selected country ISO3 code
                 selectedCountryISO3 = feature.properties.iso_a3;
                 console.log("Selected Country ISO3:", selectedCountryISO3);
+                const countryCentroids = await loadCountryCentroids();
                 const startingPoint = getCoordinatesByISO3(countryCentroids, selectedCountryISO3);
                 console.log("Starting Point:", startingPoint);
             }
         });
     }
 
-    function getCoordinatesByISO3(countryCentroids,iso3) {
+    function getCoordinatesByISO3(countryCentroids, iso3) {
         for (let feature of countryCentroids.features) {
             if (feature.properties.iso3166_3 === iso3) {
                 return feature.geometry.coordinates;

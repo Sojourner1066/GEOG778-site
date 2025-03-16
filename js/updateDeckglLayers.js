@@ -1,4 +1,4 @@
-export function updateDeckLayer(map, countryCentroids, selectedCountries, startingPoint) {
+function updateDeckLayer(map, countryCentroids, selectedCountries, startingPoint) {
     // Remove existing deck.gl layers
     map.eachLayer(layer => {
         if (layer instanceof DeckGlLeaflet.LeafletLayer) {

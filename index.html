@@ -13,11 +13,6 @@
 
     <script src="./js/centerPointGeoJson.js"></script>
     <script src="./js/filtergeojson.js"></script>
-    <script type="module">
-      import { countryCentroids, loadCountryCentroids } from './js/centerPointGeoJson.js';
-      window.countryCentroids = countryCentroids;
-      window.loadCountryCentroids = loadCountryCentroids;
-    </script>
 
     <style>
       #map {
@@ -35,8 +30,14 @@
   </body>
   
 
-  <script type="module">
-    import { countryCentroids, loadCountryCentroids } from './js/centerPointGeoJson.js';
+  <script type="text/javascript">
+
+    async function loadCountryCentroids() {
+    countryCentroids = await fetchWikidataGeoJSON();
+    console.log("Loaded country centroids:", countryCentroids);
+    return countryCentroids;
+}
+    let countryCentroids = loadCountryCentroids(); // Load country centroids
 
     let selectedCountryISO3 = null; // Global variable to store the selected country
     let selectedCountries = ["AGO", "BDI", "BEN", "BFA", "BWA", "CAF", "CIV", "CMR", "COD", "COG", "COM", 

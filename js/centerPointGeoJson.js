@@ -1,10 +1,4 @@
-export let countryCentroids = null; // Global variable to store country centroids
-// Function to load country centroids and store them globally
-export async function loadCountryCentroids() {
-    countryCentroids = await fetchWikidataGeoJSON();
-    console.log("Loaded country centroids:", countryCentroids);
-    return countryCentroids;
-}
+
 // Function to fetch and convert Wikidata SPARQL results into GeoJSON
 async function fetchWikidataGeoJSON() {
     const query = `
@@ -54,7 +48,6 @@ async function fetchWikidataGeoJSON() {
         return null;
     }
 }
-
 
 function getCoordinatesByISO3(geojsonData, iso3) {
     for (let feature of geojsonData.features) {

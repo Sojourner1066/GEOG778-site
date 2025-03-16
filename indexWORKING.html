@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- leaflet -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+  
+    <!-- deck.gl standalone bundle -->
+    <script src="https://unpkg.com/deck.gl@9.1.5/dist.min.js"></script>
+    <!-- deck.gl-leaflet -->
+    
+    <script src="https://unpkg.com/deck.gl-leaflet@1.3.1/dist/deck.gl-leaflet.umd.min.js"></script>
+
+    <script src="./js/centerPointGeoJson.js"></script>
+    <script src="./js/updateDeckglLayers.js"></script>
+
+    <style>
+      #map {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+  </body>
+  
+
+  <script type="text/javascript">
+let countryCentroids = null; // Declare globally
+
+    async function loadCountryCentroids() {
+        const data = await fetchWikidataGeoJSON();
+        console.log("Loaded country centroids:", data);
+        countryCentroids = data; // Assign data to global variable
+        return data;
+    }
+
+loadCountryCentroids(); // Load data
+
+    let selectedCountryISO3 = null; // Global variable to store the selected country
+    let selectedCountries = ["AGO", "BDI", "BEN", "BFA", "BWA", "CAF", "CIV", "CMR", "COD", "COG", "COM", 
+                            "CPV", "DJI", "DZA", "EGY", "ERI", "ETH", "GAB", "GHA", "GIN", "GMB", "GNB", 
+                            "GNQ", "KEN", "LBR", "LBY", "LSO", "MAR", "MDG", "MLI", "MOZ", "MRT", "MUS", 
+                            "MWI", "NAM", "NER", "NGA", "RWA", "SDN", "SEN", "SLE", "SOM", "SSD", "STP", 
+                            "SWZ", "SYC", "TCD", "TGO", "TUN", "TZA", "UGA", "ZAF", "ZMB", "ZWE"]; 
+    let startingPoint = null; // Variable for the starting point
+
+    const defaultStyle = {
+        fillColor: "#cbc9e2", 
+        color: "#9e9ac8",       // Border color
+        weight: 1,
+        fillOpacity: 0.6
+    };
+
+    const hoverStyle = {
+        fillColor: "#9e9ac8",
+        color: "#9e9ac8",
+        weight: 1,
+        fillOpacity: 0.8
+    };
+
+    const selectedStyle = {
+        fillColor: "#54278f", 
+        weight: 1
+    };
+
+    // Initialize the map
+    let map = L.map('map').setView([2.5, 20.0], 3);
+
+    L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibXdpc2NnIiwiYSI6ImNtN2VtbGEzNzBnaTgyam9vZXl3YzM2Ym4ifQ.YJe4CFT-CEYhl0D98Wk8aw', {
+    attribution: '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    tileSize: 512,
+    zoomOffset: -1,
+    }).addTo(map);
+
+    // Fetch and add GeoJSON data
+    fetch("data/WorldPoly.geojson")
+      .then(response => response.json())
+      .then(data => {
+          L.geoJson(data, {
+            style: defaultStyle, // Set default style
+            onEachFeature: onEachFeature // Attach event listeners 
+          }).addTo(map);
+      })
+      .catch(error => console.error("Error loading GeoJSON:", error));
+
+    // Event functions to apply and remove styles
+    function onEachFeature(feature, layer) {
+        layer.on({
+            mouseover: function (e) {
+                e.target.setStyle(hoverStyle); // Apply hover style
+            },
+            mouseout: function (e) {
+                e.target.setStyle(defaultStyle); // Reset to default style
+            },
+            click: function (e) {
+                e.target.setStyle(selectedStyle); // Apply selected style on click
+                // Set the selected country ISO3 code
+                iso3 = feature.properties.iso_a3;
+                console.log("Selected Country ISO3:", iso3);
+                updateStartingPoint(iso3); // Update starting point
+            }
+        });
+    }
+
+    function updateStartingPoint(iso3) {
+      startingPoint = getCoordinatesByISO3(iso3);
+      console.log("Updated Starting Point:", startingPoint);
+      updateDeckLayer(map, countryCentroids, selectedCountries, startingPoint)
+    }
+
+    function getCoordinatesByISO3(iso3) {
+        for (let feature of countryCentroids.features) {
+            if (feature.properties.iso3166_3 === iso3) {
+                return feature.geometry.coordinates;
+            }
+        }
+        return null; // If no matching ISO3 code found
+    }
+
+    const deckLayer = new DeckGlLeaflet.LeafletLayer({
+        views: [
+            new deck.MapView({
+            repeat: true
+            })
+        ],
+        layers: [
+            // new deck.ArcLayer({
+            // id: 'arcs',
+            // data: countryCentroids,
+            // dataTransform: d => d.features.filter(f => selectedCountries.includes(f.properties.iso3166_3)),
+            // // Styles
+            // getSourcePosition: f => startingPoint, 
+            // getTargetPosition: f => f.geometry.coordinates,
+            // getSourceColor: [0, 128, 200],
+            // getTargetColor: [200, 0, 80],
+            // getWidth: 1
+            // })
+        ],
+        });
+    map.addLayer(deckLayer);
+  </script>
+</html>

@@ -31,14 +31,16 @@
   
 
   <script type="text/javascript">
+    let countryCentroids = null; // Declare globally
 
     async function loadCountryCentroids() {
-        const countryCentroids = await fetchWikidataGeoJSON();
-        console.log("Loaded country centroids:", countryCentroids);
-        return countryCentroids;
+        const data = await fetchWikidataGeoJSON();
+        console.log("Loaded country centroids:", data);
+        countryCentroids = data; // Assign data to global variable
+        return data;
     }
 
-    var countryCentroids = loadCountryCentroids();
+    loadCountryCentroids(); // Load data
 
     let selectedCountryISO3 = null; // Global variable to store the selected country
     let selectedCountries = ["AGO", "BDI", "BEN", "BFA", "BWA", "CAF", "CIV", "CMR", "COD", "COG", "COM", 

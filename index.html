@@ -106,8 +106,9 @@
         });
     }
 
-    function updateStartingPoint(countryCentroids, iso3) {
-        startingPoint = getCoordinatesByISO3(countryCentroids, iso3);
+    function updateStartingPoint(iso3) {
+        const centerpoint = loadCountryCentroids();
+        startingPoint = getCoordinatesByISO3(centerpoint, iso3);
         console.log("Updated Starting Point:", startingPoint);
     }
 

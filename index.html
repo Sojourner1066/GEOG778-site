@@ -101,10 +101,14 @@
                 // Set the selected country ISO3 code
                 selectedCountryISO3 = feature.properties.iso_a3;
                 console.log("Selected Country ISO3:", selectedCountryISO3);
-                const startingPoint = getCoordinatesByISO3(countryCentroids, selectedCountryISO3);
-                console.log("Starting Point:", startingPoint);
+                updateStartingPoint(selectedCountryISO3); // Update starting point
             }
         });
+    }
+
+    function updateStartingPoint(iso3) {
+        startingPoint = getCoordinatesByISO3(countryCentroids, iso3);
+        console.log("Updated Starting Point:", startingPoint);
     }
 
     function getCoordinatesByISO3(countryCentroids, iso3) {
@@ -123,17 +127,17 @@
             })
         ],
         layers: [
-            new deck.ArcLayer({
-            id: 'arcs',
-            data: countryCentroids,
-            dataTransform: d => d.features.filter(f => selectedCountries.includes(f.properties.iso3166_3)),
-            // Styles
-            getSourcePosition: f => startingPoint, 
-            getTargetPosition: f => f.geometry.coordinates,
-            getSourceColor: [0, 128, 200],
-            getTargetColor: [200, 0, 80],
-            getWidth: 1
-            })
+            // new deck.ArcLayer({
+            // id: 'arcs',
+            // data: countryCentroids,
+            // dataTransform: d => d.features.filter(f => selectedCountries.includes(f.properties.iso3166_3)),
+            // // Styles
+            // getSourcePosition: f => startingPoint, 
+            // getTargetPosition: f => f.geometry.coordinates,
+            // getSourceColor: [0, 128, 200],
+            // getTargetColor: [200, 0, 80],
+            // getWidth: 1
+            // })
         ],
         });
     map.addLayer(deckLayer);

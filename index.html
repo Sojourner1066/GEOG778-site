@@ -101,7 +101,8 @@ loadCountryCentroids(); // Load data
             click: function (e) {
                 e.target.setStyle(selectedStyle); // Apply selected style on click
                 // Set the selected country ISO3 code
-                iso3 = feature.properties.iso_a3;
+                // iso3 = feature.properties.iso_a3;
+                iso3 = feature.properties.adm0_a3_us;
                 console.log("Selected Country ISO3:", iso3);
                 updateStartingPoint(iso3); // Update starting point
             }

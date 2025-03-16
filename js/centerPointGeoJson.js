@@ -47,5 +47,3 @@ async function fetchWikidataGeoJSON() {
         return null;
     }
 }
-
-export { fetchWikidataGeoJSON };

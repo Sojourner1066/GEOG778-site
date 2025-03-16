@@ -86,7 +86,7 @@
       .catch(error => console.error("Error loading GeoJSON:", error));
 
     // Event functions to apply and remove styles
-    function onEachFeature(feature, layer) {
+    function onEachFeature(feature, layer, countryCentroids) {
         layer.on({
             mouseover: function (e) {
                 e.target.setStyle(hoverStyle); // Apply hover style
@@ -94,12 +94,11 @@
             mouseout: function (e) {
                 e.target.setStyle(defaultStyle); // Reset to default style
             },
-            click: async function (e) {
+            click: function (e) {
                 e.target.setStyle(selectedStyle); // Apply selected style on click
                 // Set the selected country ISO3 code
                 selectedCountryISO3 = feature.properties.iso_a3;
                 console.log("Selected Country ISO3:", selectedCountryISO3);
-                const countryCentroids = await loadCountryCentroids();
                 const startingPoint = getCoordinatesByISO3(countryCentroids, selectedCountryISO3);
                 console.log("Starting Point:", startingPoint);
             }
@@ -122,17 +121,17 @@
             })
         ],
         layers: [
-            // new deck.ArcLayer({
-            // id: 'arcs',
-            // data: countryCentroids,
-            // dataTransform: d => d.features.filter(f => selectedCountries.includes(f.properties.iso3166_3)),
-            // // Styles
-            // getSourcePosition: f => startingPoint, 
-            // getTargetPosition: f => f.geometry.coordinates,
-            // getSourceColor: [0, 128, 200],
-            // getTargetColor: [200, 0, 80],
-            // getWidth: 1
-            // })
+            new deck.ArcLayer({
+            id: 'arcs',
+            data: countryCentroids,
+            dataTransform: d => d.features.filter(f => selectedCountries.includes(f.properties.iso3166_3)),
+            // Styles
+            getSourcePosition: f => startingPoint, 
+            getTargetPosition: f => f.geometry.coordinates,
+            getSourceColor: [0, 128, 200],
+            getTargetColor: [200, 0, 80],
+            getWidth: 1
+            })
         ],
         });
     map.addLayer(deckLayer);

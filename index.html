@@ -70,7 +70,7 @@ loadCountryCentroids(); // Load data
     };
 
     // Initialize the map
-    const map = L.map('map').setView([2.5, 20.0], 3);
+    let map = L.map('map').setView([2.5, 20.0], 3);
 
     L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibXdpc2NnIiwiYSI6ImNtN2VtbGEzNzBnaTgyam9vZXl3YzM2Ym4ifQ.YJe4CFT-CEYhl0D98Wk8aw', {
     attribution: '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -101,14 +101,14 @@ loadCountryCentroids(); // Load data
             click: function (e) {
                 e.target.setStyle(selectedStyle); // Apply selected style on click
                 // Set the selected country ISO3 code
-                selectedCountryISO3 = feature.properties.iso_a3;
-                console.log("Selected Country ISO3:", selectedCountryISO3);
-                updateStartingPoint(selectedCountryISO3); // Update starting point
+                iso3 = feature.properties.iso_a3;
+                console.log("Selected Country ISO3:", iso3);
+                updateStartingPoint(iso3); // Update starting point
             }
         });
     }
 
-    function updateStartingPoint(iso3, selectedCountries, map) {
+    function updateStartingPoint(iso3) {
       startingPoint = getCoordinatesByISO3(iso3);
       console.log("Updated Starting Point:", startingPoint);
       updateDeckLayer(map, countryCentroids, selectedCountries, startingPoint)

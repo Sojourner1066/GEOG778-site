@@ -13,6 +13,9 @@
 
     <script src="./js/centerPointGeoJson.js"></script>
     <script src="./js/filtergeojson.js"></script>
+    <script type="module">
+    import { countryCentroids, loadCountryCentroids } from './js/centerPointGeoJson.js';
+    </script>
 
     <style>
       #map {
@@ -30,10 +33,7 @@
   </body>
   
 
-  <script type="module">
-
-    import { countryCentroids, loadCountryCentroids } from './js/centerPointGeoJson.js';
-
+  <script type="text/javascript">
     let selectedCountryISO3 = null; // Global variable to store the selected country
     let selectedCountries = ["AGO", "BDI", "BEN", "BFA", "BWA", "CAF", "CIV", "CMR", "COD", "COG", "COM", 
                             "CPV", "DJI", "DZA", "EGY", "ERI", "ETH", "GAB", "GHA", "GIN", "GMB", "GNB", 

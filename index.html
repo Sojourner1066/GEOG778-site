@@ -38,6 +38,8 @@
         return countryCentroids;
     }
 
+    const countryCentroids = await loadCountryCentroids();
+    
     let selectedCountryISO3 = null; // Global variable to store the selected country
     let selectedCountries = ["AGO", "BDI", "BEN", "BFA", "BWA", "CAF", "CIV", "CMR", "COD", "COG", "COM", 
                             "CPV", "DJI", "DZA", "EGY", "ERI", "ETH", "GAB", "GHA", "GIN", "GMB", "GNB", 

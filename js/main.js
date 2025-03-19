@@ -21,6 +21,8 @@ L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/{z}/{x}/{y}
     attribution: '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     tileSize: 512,
     zoomOffset: -1,
+    // strongly advise storing all tokens as an environment variables for security purposes
+    // https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables
     accessToken: 'pk.eyJ1IjoibXdpc2NnIiwiYSI6ImNtN2VtbGEzNzBnaTgyam9vZXl3YzM2Ym4ifQ.YJe4CFT-CEYhl0D98Wk8aw' // Replace with your Mapbox token
 }).addTo(map);
 

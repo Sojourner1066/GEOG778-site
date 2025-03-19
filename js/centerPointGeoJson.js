@@ -1,4 +1,7 @@
 // Function to fetch and convert Wikidata SPARQL results into GeoJSON
+// if possible, I would separate your fetch and your map
+// There exists an idea called "command query separation" where things fetching data are separated from things transforming data
+// Doing this will make your code more readable, testable, and easier to debug
 async function fetchWikidataGeoJSON() {
     const query = `
     SELECT ?country ?countryLabel ?iso3166_3 ?coord WHERE {

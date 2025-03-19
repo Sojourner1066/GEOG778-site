@@ -6,6 +6,8 @@ function filterGeoJSONByISO3(geojsonData, isoCodes) {
 
     // Ensure isoCodes is an array
     if (!Array.isArray(isoCodes)) {
+        // this might produce unexpected results
+        // Is there a reason to suspect isoCodes may not be an array? Have you seen other data types?
         isoCodes = [isoCodes];
     }
 

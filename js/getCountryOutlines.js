@@ -1,3 +1,6 @@
+// same note as centerPointGeoJson(), I would try to simplify this file by breaking out all your fetches into their own directory
+// is there some functionality you could also recycle? Many programmers abide by the DRY principle, but I will let you be the judge of what's best for your use case!
+// https://thevaluable.dev/dry-principle-cost-benefit-example/
 async function fetchWikidataGeoShapes() {
     const endpointUrl = "https://query.wikidata.org/sparql";
     const sparqlQuery = `
